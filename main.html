@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>n^2를 시각적으로 보자</title>
+    <style>
+        .arithmeticGraph-title {
+            color: #DDA0DD;
+            text-align: center;
+            font-size: 24px;
+            margin: 20px 0;
+        }
+        .arithmeticGraph-container {
+            display: flex;
+            justify-content: flex-start;
+            align-items: flex-end;
+            min-height: 200px; /* 최소 높이 설정 */
+            width: 90%;
+            background-color: #333;
+            border: 2px solid #777;
+            padding: 15px;
+            overflow-x: auto;
+            margin: 0 auto 20px;
+            box-shadow: 0 0 10px #000;
+        }
+        .arithmeticGraph-bar {
+            display: flex;
+            flex-direction: column-reverse;
+            margin-right: 10px;
+            box-shadow: 0 0 5px #000;
+        }
+        .arithmeticGraph-square {
+            width: 30px;
+            height: 30px;
+            margin-bottom: 3px;
+            border: 1px solid #444;
+        }
+        .arithmeticGraph-button {
+            background-color: #555;
+            color: #ccc;
+            border: none;
+            padding: 12px 24px;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 18px;
+            transition: background-color 0.3s;
+            margin: 0 5px;
+        }
+        .arithmeticGraph-button:hover {
+            background-color: #666;
+        }
+        .arithmeticGraph-buttons {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="arithmeticGraph-title">n^2를 시각적으로 보자</div>
+    <div class="arithmeticGraph-container" id="graphContainer"></div>
+    <div class="arithmeticGraph-buttons">
+        <button id="increase" class="arithmeticGraph-button">증가</button>
+        <button id="decrease" class="arithmeticGraph-button">감소</button>
+    </div>
+
+    <script>
+    let n = 0;
+    const colors = ['#6A0DAD', '#008080', '#708090', '#800000', '#483D8B'];
+
+    function updateContainerHeight() {
+        const container = document.getElementById('graphContainer');
+        const bars = container.getElementsByClassName('arithmeticGraph-bar');
+        let maxHeight = 200; // 기본 컨테이너 최소 높이 설정
+        for (let bar of bars) {
+            let barHeight = 0;
+            for (let square of bar.children) {
+                barHeight += square.offsetHeight + parseInt(window.getComputedStyle(square).marginBottom);
+            }
+            maxHeight = Math.max(maxHeight, barHeight);
+        }
+        container.style.height = `${maxHeight}px`;
+    }
+
+    function drawBar() {
+        n++;
+        const container = document.getElementById('graphContainer');
+        const bar = document.createElement('div');
+        bar.classList.add('arithmeticGraph-bar');
+
+        const squares = 2 * n - 1;
+
+        for (let i = 0; i < squares; i++) {
+            const square = document.createElement('div');
+            square.classList.add('arithmeticGraph-square');
+            square.style.backgroundColor = colors[(n-1) % colors.length];
+            bar.appendChild(square);
+        }
+
+        bar.style.width = `${30}px`;
+        container.appendChild(bar);
+        updateContainerHeight(); // 높이 업데이트
+    }
+
+    function removeBar() {
+        if (n > 0) {
+            const container = document.getElementById('graphContainer');
+            if (container.lastChild) {
+                container.removeChild(container.lastChild);
+                n--;
+                updateContainerHeight(); // 막대 제거 후 높이 업데이트
+            }
+        }
+    }
+
+    document.getElementById('increase').addEventListener('click', drawBar);
+    document.getElementById('decrease').addEventListener('click', removeBar);
+</script>
+</body>
+</html>
