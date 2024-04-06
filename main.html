@@ -51,8 +51,30 @@
         }
         .arithmeticGraph-buttons {
             display: flex;
-            justify-content: center;
-            width: 100%;
+            justify-content: space-between;
+            align-items: center;
+            width: 90%;
+            margin: 0 auto;
+            margin-top: 20px;
+        }
+        .github-button {
+            background-color: #555;
+            color: #ccc;
+            border: none;
+            padding: 12px 24px;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 18px;
+            transition: background-color 0.3s;
+        }
+        .github-button:hover {
+            background-color: #666;
+        }
+        .arithmeticGraph-label {
+            color: #fff;
+            font-size: 14px;
+            text-align: center;
+            margin-top: 5px;
         }
     </style>
 </head>
@@ -60,8 +82,11 @@
     <div class="arithmeticGraph-title">n^2를 시각적으로 보자</div>
     <div class="arithmeticGraph-container" id="graphContainer"></div>
     <div class="arithmeticGraph-buttons">
-        <button id="increase" class="arithmeticGraph-button">증가</button>
-        <button id="decrease" class="arithmeticGraph-button">감소</button>
+        <div>
+            <button id="increase" class="arithmeticGraph-button">증가</button>
+            <button id="decrease" class="arithmeticGraph-button">감소</button>
+        </div>
+        <a href="https://github.com/SDW1014/2024--04--07-" target="_blank" class="github-button">GitHub에서 보기</a>
     </div>
 
     <script>
@@ -97,6 +122,11 @@
             bar.appendChild(square);
         }
 
+        const label = document.createElement('div');
+        label.classList.add('arithmeticGraph-label');
+        label.textContent = `n=${n}`;
+        bar.appendChild(label);
+
         bar.style.width = `${30}px`;
         container.appendChild(bar);
         updateContainerHeight(); // 높이 업데이트
@@ -115,6 +145,6 @@
 
     document.getElementById('increase').addEventListener('click', drawBar);
     document.getElementById('decrease').addEventListener('click', removeBar);
-</script>
+    </script>
 </body>
 </html>
